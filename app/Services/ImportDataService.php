@@ -15,14 +15,14 @@ class ImportDataService {
     public static function import() {
         $client = new Client(HttpClient::create(['timeout' => 120]));
         $crawler = $client->request('GET', 'https://www.e-obce.sk/kraj/NR.html');
-        $region = Region::create([
+        $region = Region::firstOrCreate([
             'name' => 'Nitra',
         ]);
 
         $crawler->filter('div.okres a')->each(function ($node) use ($crawler, $client, $region) {
             // name of the sub-district
             print "Name of the sub-district: ".$node->text()."\n";
-            $subdistrict = Subdistrict::create([
+            $subdistrict = Subdistrict::firstOrCreate([
                 'region_id' => $region->id,
                 'name' => $node->text(),
             ]);
@@ -85,15 +85,15 @@ class ImportDataService {
                                         $city['web_address'] = $node->text();
                                     });
                                 // img
-                                $node->filter('img')
-                                    ->each(function ($node) use (&$city) {
-                                        if (str_contains($node->image()->getUri(), 'erb')) {
-                                            $url = $node->image()->getUri();
-                                            $contents = file_get_contents($url);
-                                            $name = substr($url, strrpos($url, '/') + 1);
-                                            file_put_contents(public_path($name), $contents);
-                                        }
-                                    });
+                                // $node->filter('img')
+                                //     ->each(function ($node) use (&$city) {
+                                //         if (str_contains($node->image()->getUri(), 'erb')) {
+                                //             $url = $node->image()->getUri();
+                                //             $contents = file_get_contents($url);
+                                //             $name = substr($url, strrpos($url, '/') + 1);
+                                //             file_put_contents(public_path($name), $contents);
+                                //         }
+                                //     });
                             });
 
                     // mayor name
@@ -106,9 +106,9 @@ class ImportDataService {
                             });
 
                     print "\n";
-                    $city = City::create($city);
+                    $city = City::firstOrCreate($city);
                     foreach ($emails as $email) {
-                        Email::create([
+                        Email::firstOrCreate([
                             'city_id' => $city->id,
                             'email' => $email,
                         ]);
