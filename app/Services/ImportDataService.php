@@ -84,6 +84,16 @@ class ImportDataService {
                                         print "Web: ".$node->text()."\n";
                                         $city['web_address'] = $node->text();
                                     });
+                                // img
+                                $node->filter('img')
+                                    ->each(function ($node) use (&$city) {
+                                        if (str_contains($node->image()->getUri(), 'erb')) {
+                                            $url = $node->image()->getUri();
+                                            $contents = file_get_contents($url);
+                                            $name = substr($url, strrpos($url, '/') + 1);
+                                            file_put_contents(public_path($name), $contents);
+                                        }
+                                    });
                             });
 
                     // mayor name
