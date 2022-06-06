@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('fax');
             $table->string('web_address')->nullable();
+            $table->string('img_path');
             $table->timestamps();
         });
     }

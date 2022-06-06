@@ -21,6 +21,7 @@ class City extends Model
         'city_hall_address',
         'phone',
         'fax',
-        'web_address'
+        'web_address',
+        'img_path'
     ];
 }
