@@ -1,6 +1,6 @@
 <header>
     <div class="container mt-1">
-        <div class="header-container d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
 
             <img src="{{ asset('/img/logo.jpg') }}" width="180px" alt="Logo Effective cleaning and gardening.">
             <div class="d-flex flex-column flex-md-row">
