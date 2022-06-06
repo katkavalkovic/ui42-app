@@ -11,6 +11,8 @@
     },
     "devDependencies": {
         "axios": "^0.25",
+        "gulp": "^4.0.2",
+        "gulp-less": "^5.0.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14"
