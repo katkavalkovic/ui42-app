@@ -47,10 +47,8 @@ class CityController extends Controller
      */
     public function show($id)
     {
-        // dd(City::findOrFail($id)->emails);
         return view('detail', [
             'city' => City::findOrFail($id),
-            'emails' => Email::where('city_id', $id)->get()
         ]);
     }
 

@@ -51,7 +51,7 @@
             </div>
             <div class="col-12 col-lg-6 right-card-side">
                 <div class="d-flex flex-column w-100 h-100 justify-content-center align-items-center">
-                    <img src="{{asset('').'/'.$city['img_path']}}" height="120px" alt="Erb obce {{$city['name']}}.">
+                    <img src="{{asset('img').'/'.$city['img_path']}}" height="120px" alt="Erb obce {{$city['name']}}.">
                     <h2 class="mt-3">{{ $city['name'] }}</h2>
                 </div>
             </div>

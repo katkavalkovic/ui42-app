@@ -86,7 +86,7 @@ class ImportDataService {
                                             $url = $node->image()->getUri();
                                             $contents = file_get_contents($url);
                                             $name = substr($url, strrpos($url, '/') + 1);
-                                            file_put_contents(public_path($name), $contents);
+                                            file_put_contents(public_path('img/'.$name), $contents);
                                             $city['img_path'] = $name;
                                         }
                                     });
