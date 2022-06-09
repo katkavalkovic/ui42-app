@@ -11,6 +11,8 @@
 ## To run this application locally:
 
 - open terminal
+- php artisan migrate
+- php artisan data:import
 - php artisan serve
 - http://127.0.0.1:8000 -> homepage
 - http://127.0.0.1:8000/detail/{id} -> city detail
