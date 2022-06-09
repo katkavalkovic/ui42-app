@@ -6,7 +6,6 @@
 - unzip
 - open terminal
 - composer install
-- npm install
 
 ## To run this application locally:
 
