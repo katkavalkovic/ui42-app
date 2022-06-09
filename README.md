@@ -10,6 +10,8 @@
 
 ## To run this application locally:
 
+- (manually) create database
+- edit .env file and set up connection to the database
 - open terminal
 - php artisan migrate
 - php artisan data:import
