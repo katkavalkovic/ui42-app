@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Services;
-use Sunra\PhpSimple\HtmlDomParser;
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\DomCrawler\Crawler;
@@ -9,10 +8,12 @@ use App\Models\Region;
 use App\Models\Subdistrict;
 use App\Models\City;
 use App\Models\Email;
+use App\Models\WebAddress;
 
 class ImportDataService {
 
     public static function import() {
+        print "Importing data...\n";
         $client = new Client(HttpClient::create(['timeout' => 120]));
         $crawler = $client->request('GET', 'https://www.e-obce.sk/kraj/NR.html');
         $region = Region::firstOrCreate([
@@ -21,7 +22,6 @@ class ImportDataService {
 
         $crawler->filter('div.okres a')->each(function ($node) use ($crawler, $client, $region) {
             // name of the sub-district
-            print "Name of the sub-district: ".$node->text()."\n";
             $subdistrict = Subdistrict::firstOrCreate([
                 'region_id' => $region->id,
                 'name' => $node->text(),
@@ -38,7 +38,6 @@ class ImportDataService {
                     $city['subdistrict_id'] = $subdistrict->id;
 
                     // name of the city
-                    print "Name of the city: ".$node->text()."\n";
                     $city['name'] = $node->text();
 
                     $link = $node->selectLink($node->text())->link();
@@ -46,18 +45,17 @@ class ImportDataService {
                     
                     $address = "";
                     $emails = array();
+                    $webAddresses = array();
                     $crawler->filter('table[cellspacing="3"][cellpadding="0"]:first-of-type')
-                            ->each(function ($node, $i) use (&$address, &$city, &$emails) {
+                            ->each(function ($node, $i) use (&$address, &$city, &$emails, &$webAddresses) {
                                 // phone
                                 $node->filter('tr:nth-of-type(3) td:nth-of-type(4)')
                                     ->each(function ($node) use (&$city) {
-                                        print "Phone: ".$node->text()."\n";
                                         $city['phone'] = $node->text();
                                     });
                                 // fax
                                 $node->filter('tr:nth-of-type(4) td:nth-of-type(3)')
                                     ->each(function ($node) use (&$city) {
-                                        print "Fax: ".$node->text()."\n";
                                         $city['fax'] = $node->text();
                                     });
                                 // city hall address: street and number
@@ -68,21 +66,18 @@ class ImportDataService {
                                 // email
                                 $node->filter('tr:nth-of-type(5) a')
                                     ->each(function ($node) use (&$emails) {
-                                        print "Email: ".$node->text()."\n";
                                         array_push($emails, $node->text());
                                     });
                                 // city hall address: postalcode and city
                                 $node->filter('tr:nth-of-type(6) td:nth-of-type(1)')
                                     ->each(function ($node) use (&$address, &$city) {
                                         $address = $address." ".$node->text();
-                                        print "City hall address: ".$address."\n";
                                         $city['city_hall_address'] = $address;
                                     });
                                 // web address
                                 $node->filter('tr:nth-of-type(6) a')
-                                    ->each(function ($node) use (&$city) {
-                                        print "Web: ".$node->text()."\n";
-                                        $city['web_address'] = $node->text();
+                                    ->each(function ($node) use (&$webAddresses) {
+                                        array_push($webAddresses, $node->text());
                                     });
                                 // img
                                 $node->filter('img')
@@ -92,7 +87,6 @@ class ImportDataService {
                                             $contents = file_get_contents($url);
                                             $name = substr($url, strrpos($url, '/') + 1);
                                             file_put_contents(public_path($name), $contents);
-                                            print "Image path: ".$name."\n";
                                             $city['img_path'] = $name;
                                         }
                                     });
@@ -103,11 +97,9 @@ class ImportDataService {
                             ->filter('tr')->eq(7)
                             ->filter('td')->eq(1)
                             ->each(function ($node) use (&$city) {
-                                print "Mayor name: ".$node->text()."\n";
                                 $city['mayor_name'] = $node->text();
                             });
 
-                    print "\n";
                     $city = City::firstOrCreate($city);
                     foreach ($emails as $email) {
                         Email::firstOrCreate([
@@ -115,8 +107,16 @@ class ImportDataService {
                             'email' => $email,
                         ]);
                     }
+                    foreach ($webAddresses as $webAddress) {
+                        WebAddress::firstOrCreate([
+                            'city_id' => $city->id,
+                            'web_address' => $webAddress,
+                        ]);
+                    }
                 }
             });
         });
+        print "Data import completed.\n";
+
     }
 }

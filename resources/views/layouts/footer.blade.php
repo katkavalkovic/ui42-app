@@ -1,7 +1,7 @@
 <footer>
     <div class="container">
         <div class="row">
-            <div class="col-3">
+            <div class="col-6 col-md-3">
                 <h2>{{ __('Adresa a kontakt') }}</h2>
                 <div class="d-flex flex-column mb-4">
                     <span>ŠÚKL</span>
@@ -38,7 +38,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-3">
+            <div class="col-6 col-md-3 mb-3 mb-md-0">
                 <h2>{{ __('O nás') }}</h2>
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -97,7 +97,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-3">
+            <div class="col-6 col-md-3">
                 <h2>{{ __('Médiá') }}</h2>
                 <ul class="nav flex-column mb-4">
                     <li class="nav-item">
@@ -144,7 +144,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-3">
+            <div class="col-6 col-md-3">
                 <h2>{{ __('Drogové prekurzory') }}</h2>
                 <ul class="nav flex-column mb-4">
                     <li class="nav-item">

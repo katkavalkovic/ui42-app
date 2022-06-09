@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\City;
 
-class Email extends Model
+
+class WebAddress extends Model
 {
     use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -17,7 +17,7 @@ class Email extends Model
      */
     protected $fillable = [
         'city_id',
-        'email'
+        'web_address'
     ];
 
     public function city()

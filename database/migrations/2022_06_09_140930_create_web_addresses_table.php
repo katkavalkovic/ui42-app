@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('web_addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subdistrict_id')->constrained();
-            $table->string('name');
-            $table->string('mayor_name')->nullable();
-            $table->string('city_hall_address');
-            $table->string('phone');
-            $table->string('fax');
-            $table->string('img_path');
+            $table->foreignId('city_id')->constrained();
+            $table->string('web_address');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('web_addresses');
     }
 };

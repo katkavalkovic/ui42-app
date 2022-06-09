@@ -2,7 +2,7 @@
     <div class="container mt-1">
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3">
 
-            <img src="{{ asset('/img/logo.jpg') }}" width="180px" alt="Logo Effective cleaning and gardening.">
+            <a href="/"><img src="{{ asset('/img/logo.jpg') }}" width="180px" alt="Logo Effective cleaning and gardening."></a>
             <div class="d-flex flex-column flex-md-row">
                 <div class="d-flex flex-row align-items-center justify-content-center">
                     <span class="cl-blue fw-medium me-3 text-end">{{ __('Kontakty a čísla na oddelenia') }}</span>

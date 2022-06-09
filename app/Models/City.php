@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Email;
+use App\Models\WebAddress;
 
 class City extends Model
 {
@@ -21,7 +23,16 @@ class City extends Model
         'city_hall_address',
         'phone',
         'fax',
-        'web_address',
         'img_path'
     ];
+
+    public function emails()
+    {
+        return $this->hasMany(Email::class);
+    }
+
+    public function webAddresses()
+    {
+        return $this->hasMany(WebAddress::class);
+    }
 }
